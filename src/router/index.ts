@@ -1,14 +1,19 @@
-import Vue from "vue";
-import VueRouter, { RouteConfig } from "vue-router";
-import Home from "../views/Home.vue";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
-Vue.use(VueRouter);
-
-const routes: Array<RouteConfig> = [
+const routes: Array<RouteRecordRaw> = [
+  // {
+  //   path: "/",
+  //   name: "Home",
+  //   component: () =>
+  //     import(/* webpackChunkName: "about" */ "../views/Home.vue"),
+  // },
+  { path: "/", redirect: () => "/r/Animewallpaper" },
   {
-    path: "/",
-    name: "Home",
-    component: Home,
+    path: "/r/:subreddit",
+    name: "Subreddit",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Links.vue"),
+    props: ({ params }) => ({ subreddit: params.subreddit }),
   },
   {
     path: "/about",
@@ -21,9 +26,8 @@ const routes: Array<RouteConfig> = [
   },
 ];
 
-const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
   routes,
 });
 

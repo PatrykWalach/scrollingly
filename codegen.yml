@@ -1,0 +1,25 @@
+overwrite: true
+schema: "src/schema.ts"
+documents: "src/**/*.vue"
+generates:
+  src/generated/graphql.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-vue-apollo
+    config:
+      withCompositionFunctions: true
+      vueApolloComposableImportFrom: "@vue/apollo-composable"
+      vueCompositionApiImportFrom: "vue"
+      gqlImport: "@apollo/client#gql"
+  src/generated/apollo-helpers.ts:
+    plugins:
+      - typescript-apollo-client-helpers
+  src/generated/fragment-matcher.json:
+    plugins:
+      - fragment-matcher
+  src/generated/introspection.json:
+    plugins:
+      - introspection
+    config:
+      minify: true

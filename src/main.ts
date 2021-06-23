@@ -1,11 +1,15 @@
-import Vue from "vue";
+import { createApp } from "vue";
+import vuetify from "./plugins/vuetify";
 import App from "./App.vue";
-import "./registerServiceWorker";
 import router from "./router";
+import { DefaultApolloClient } from "@vue/apollo-composable";
+import { client } from "./client";
 
-Vue.config.productionTip = false;
+createApp(App)
+  .use(router)
+  .use(vuetify)
+  .provide(DefaultApolloClient, client)
+  .mount("#app");
 
-new Vue({
-  router,
-  render: (h) => h(App),
-}).$mount("#app");
+
+  
