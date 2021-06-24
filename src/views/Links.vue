@@ -83,6 +83,9 @@ export default defineComponent({
       if (query.networkStatus.value !== NetworkStatus.ready) {
         return;
       }
+      if (!hasNextPage.value) {
+        return;
+      }
       console.log("fetchMore");
       query.fetchMore({
         variables: {
