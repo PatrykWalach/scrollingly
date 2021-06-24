@@ -94,6 +94,9 @@ export default defineComponent({
       });
     };
 
+    const hasNextPage = computed(
+      () => query.result.value?.links?.pageInfo.hasNextPage ?? true
+    );
     const links = computed(
       () =>
         query.result.value?.links?.edges?.filter((edge) =>
