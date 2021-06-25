@@ -1,5 +1,5 @@
 <script lang="ts">
-import { useLinksQuery } from "@/generated/graphql";
+import { LinksSort, useLinksQuery } from "@/generated/graphql";
 import { gql, NetworkStatus } from "@apollo/client";
 import { computed, onBeforeUnmount, ref } from "vue";
 import Component0 from "./Component0.vue";
@@ -26,11 +26,11 @@ SwiperCore.use([
 ]);
 
 export const LINKS = gql`
-  query Links($subreddit: String!, $after: String!) {
-    links(subreddit: $subreddit, first: 100, after: $after)
+  query LinksQuery($params: LinksParams!, $after: String) {
+    links(params: $params, first: 100, after: $after)
       @rest(
         type: "LinksConnection"
-        path: "/r/{args.subreddit}/new.json?{args}&limit={args.first}"
+        path: "/r/{args.params.subreddit}/{args.params.sort}.json?{args}&limit={args.first}"
       ) {
       edges {
         node {
@@ -67,8 +67,11 @@ export default defineComponent({
   setup(props) {
     const query = useLinksQuery(
       () => ({
-        subreddit: props.subreddit,
-        after: "null",
+        params: {
+          subreddit: props.subreddit,
+          sort: LinksSort.New,
+          // after: "null",
+        },
       }),
       {
         notifyOnNetworkStatusChange: true,
@@ -89,7 +92,7 @@ export default defineComponent({
       console.log("fetchMore");
       query.fetchMore({
         variables: {
-          after: query.result.value.links?.pageInfo.endCursor ?? "null",
+          after: query.result.value.links?.pageInfo.endCursor ?? undefined,
         },
       });
     };

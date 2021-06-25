@@ -133,7 +133,41 @@ export default gql`
     pageInfo: PageInfo!
   }
 
+
+  enum LinksSort {
+    hot
+    new
+    random
+    rising
+    top
+    controversial
+  }
+
+  input LinksParams {
+    subreddit: String!
+    sort: LinksSort!
+  }
+  enum Show {
+    all
+  }
+  enum T {
+    hour
+    day
+    week
+    month
+    year
+    all
+  }
   type Query {
-    links(first: Int, after: String, subreddit: String!): LinksConnection
+    links(
+      params: LinksParams!
+      t: T
+      after: String
+      before: String
+      # count
+      first: Int #limit
+      show: Show
+    ): # sr_detail
+    LinksConnection
   }
 `;

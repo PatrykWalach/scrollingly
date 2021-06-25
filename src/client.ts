@@ -27,7 +27,7 @@ interface Link {
 const typePolicies: TypedTypePolicies = {
   Query: {
     fields: {
-      links: relayStylePagination(["subreddit"]),
+      links: relayStylePagination(["params"]),
     },
   },
 };
