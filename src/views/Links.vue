@@ -1,9 +1,12 @@
 <script lang="ts">
 import { LinksSort, useLinksQuery } from "@/generated/graphql";
 import { gql, NetworkStatus } from "@apollo/client";
-import { computed, onBeforeUnmount, ref } from "vue";
+import { computed, defineComponent, toRef, ref } from "vue";
 import Component0, { fragments } from "./Component0.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
+
+import { useBreakpoints } from "@/hooks/useBreakpoints";
+import { useFullscreen } from "@/hooks/useFullscreen";
 
 // import "swiper/swiper-bundle.min.css";
 //   import 'swiper/components/scrollbar/scrollbar.scss';
@@ -16,6 +19,7 @@ import SwiperCore, {
   // Scrollbar,
   Keyboard,
 } from "swiper/core";
+import { useViewport } from "@/hooks/useViewport";
 
 SwiperCore.use([
   Virtual,
@@ -124,7 +128,10 @@ export default defineComponent({
 
     return {
       links,
-      vh,
+      mobile: toRef(useBreakpoints(), "mobile"),
+      height: toRef(useViewport(), "height"),
+
+      ...useFullscreen(),
       fetchMore,
       // onSlideChange(...arg: unknown[]) {
       //   console.log(...arg);
@@ -136,7 +143,7 @@ export default defineComponent({
 
 <template>
   <swiper
-    :style="{ height: '100vh' }"
+    :style="{ height: `${height - (mobile ? 56 : 0)}px` }"
     direction="vertical"
     keyboard
     virtual
@@ -149,22 +156,30 @@ export default defineComponent({
       :virtualIndex="index"
       v-slot="{ isActive }"
     >
-      <teleport to="body">
-        <a :href="`https://www.reddit.com${node.permalink}`" target="_blank">
-          <v-btn
-            v-if="isActive"
-            fab
-            :style="{ position: 'fixed', right: '40px', bottom: '40px' }"
-            x-large
-            color="primary"
-          >
-            link
-          </v-btn></a
+      <teleport to="#actions" v-if="isActive">
+        <a
+          class="text-white"
+          :style="{ textDecoration: 'unset' }"
+          :href="`https://www.reddit.com${node.permalink}`"
+          target="_blank"
         >
+          <v-btn flat density="comfortable" icon="mdi-open-in-new"> </v-btn>
+        </a>
       </teleport>
-      <Component0 :height="vh" :node="node" />
+      <Component0 :isActive="isActive" :node="node" />
     </swiper-slide>
   </swiper>
+  <teleport to="#actions">
+
+    <v-btn
+      flat
+      v-if="isFullscreenSupported"
+      density="comfortable"
+      :icon="isFullscreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'"
+      @click="isFullscreen = !isFullscreen"
+    >
+    </v-btn>
+  </teleport>
 </template>
 
 <style>
