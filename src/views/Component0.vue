@@ -15,6 +15,7 @@ export const fragments = {
       permalink
       title
       subreddit
+      postHint
     }
   `,
 };
@@ -36,8 +37,21 @@ export default defineComponent({
 </script>
 
 <template>
-  <v-sheet flat tile>
-    <v-img v-bind="$attrs" :src="node.url" contain>
+  <v-sheet
+    tile
+    :style="{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }"
+    :height="`calc(100vh - ${mobile ? 56 : 0}px)`"
+  >
+    <v-img
+      v-if="node.postHint === 'image'"
+      :style="{ width: '100%', height: '100%' }"
+      :src="node.url"
+      :lazy-src="node.thumbnail"
+    >
       <!-- <div :style="{ display: 'flex', alignItems: 'flex-end' }"> -->
       <teleport to="#actions">
         <v-btn
@@ -57,5 +71,6 @@ export default defineComponent({
         </v-list-item> -->
       <!-- </div> -->
     </v-img>
+    <div v-else>couldn't load</div>
   </v-sheet>
 </template>
