@@ -56,8 +56,6 @@ export const LINKS = gql`
   ${fragments.node}
 `;
 
-import { defineComponent } from "vue";
-
 export default defineComponent({
   components: {
     Component0,
