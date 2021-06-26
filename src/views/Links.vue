@@ -1,7 +1,7 @@
 <script lang="ts">
 import { LinksSort, useLinksQuery } from "@/generated/graphql";
 import { gql, NetworkStatus } from "@apollo/client";
-import { computed, defineComponent, toRef, ref } from "vue";
+import { computed, defineComponent, toRef, onBeforeUnmount} from "vue";
 import Component0, { fragments } from "./Component0.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 

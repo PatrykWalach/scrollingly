@@ -3,6 +3,9 @@ import { gql } from "@apollo/client";
 import { defineComponent, PropType, toRef } from "vue";
 import { Link_Node } from "../generated/graphql";
 
+import { useBreakpoints } from "@/hooks/useBreakpoints";
+import { useClipboard } from "@/hooks/useClipboard";
+import { useViewport } from "@/hooks/useViewport";
 export const fragments = {
   node: gql`
     fragment Link_node on Link {
