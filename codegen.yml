@@ -12,6 +12,13 @@ generates:
       vueApolloComposableImportFrom: "@vue/apollo-composable"
       vueCompositionApiImportFrom: "vue"
       gqlImport: "@apollo/client#gql"
+
+      omitOperationSuffix: true
+      exportFragmentSpreadSubTypes: true
+      dedupeFragments: true
+      immutableTypes: true
+      preResolveTypes: true
+
   src/generated/apollo-helpers.ts:
     plugins:
       - typescript-apollo-client-helpers
