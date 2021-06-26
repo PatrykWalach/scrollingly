@@ -173,6 +173,7 @@ export default defineComponent({
 
     <v-btn
       flat
+      class="text-white"
       v-if="isFullscreenSupported"
       density="comfortable"
       :icon="isFullscreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'"

@@ -56,6 +56,7 @@ export default defineComponent({
       <teleport to="#actions">
         <v-btn
           flat
+          class="text-white"
           v-if="isActive"
           density="comfortable"
           icon="mdi-content-copy"
