@@ -18,12 +18,13 @@ import SwiperCore, {
   Virtual,
   // Scrollbar,
   Keyboard,
+  Mousewheel,
 } from "swiper/core";
 import { useViewport } from "@/hooks/useViewport";
 
 SwiperCore.use([
   Virtual,
-  // Mousewheel,
+  Mousewheel,
   Keyboard,
   //  Scrollbar
 ]);
@@ -146,6 +147,7 @@ export default defineComponent({
     keyboard
     virtual
     @reachEnd="fetchMore"
+    mousewheel
   >
     <!-- @slideChange="onSlideChange" -->
     <swiper-slide
