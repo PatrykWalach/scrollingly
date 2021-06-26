@@ -1,11 +1,10 @@
 <script lang="ts">
 import { gql } from "@apollo/client";
-import { defineComponent, ref, PropType, watch } from "vue";
-import { Link_NodeFragment } from "../generated/graphql";
-import {} from "vue";
+import { defineComponent, PropType, toRef } from "vue";
+import { Link_Node } from "../generated/graphql";
 
 export const fragments = {
-  item: gql`
+  node: gql`
     fragment Link_node on Link {
       url
       thumbnail
@@ -19,7 +18,7 @@ export const fragments = {
 
 export default defineComponent({
   props: {
-    node: { type: Object as PropType<Link_NodeFragment>, required: true },
+    node: { type: Object as PropType<Link_Node>, required: true },
   },
 
   setup() {

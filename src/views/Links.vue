@@ -2,8 +2,7 @@
 import { LinksSort, useLinksQuery } from "@/generated/graphql";
 import { gql, NetworkStatus } from "@apollo/client";
 import { computed, onBeforeUnmount, ref } from "vue";
-import Component0 from "./Component0.vue";
-
+import Component0, { fragments } from "./Component0.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 
 // import "swiper/swiper-bundle.min.css";
@@ -34,8 +33,7 @@ export const LINKS = gql`
       ) {
       edges {
         node {
-          url
-          thumbnail
+          ...Link_node
           id
           permalink
           title
@@ -51,6 +49,7 @@ export const LINKS = gql`
       }
     }
   }
+  ${fragments.node}
 `;
 
 import { defineComponent } from "vue";
