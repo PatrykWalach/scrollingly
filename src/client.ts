@@ -35,13 +35,15 @@ const typePolicies: TypedTypePolicies = {
 import camelCase from "camelcase";
 import { snakeCase } from "snake-case";
 
-const isListing = (data: unknown): data is Listing<unknown> =>
-  (data as Listing<unknown>).kind === "Listing";
+const isListing =
+  <T>(isTest: (data: unknown) => data is T) =>
+  (data: unknown): data is Listing<T> =>
+    (data as Listing<unknown>).kind === "Listing" &&
+    (data as Listing<unknown>).data.children.every(isTest);
 
 const isLink = (data: unknown): data is Link => (data as Link).kind === "t3";
 
-const isLinkListing = (data: unknown): data is Listing<Link> =>
-  isListing(data) && data.data.children.every(isLink);
+const isLinkListing = isListing(isLink);
 
 const patchField =
   (field: string, __typename: string): RestLink.FunctionalTypePatcher =>
