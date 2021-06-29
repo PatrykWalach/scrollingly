@@ -4,7 +4,6 @@ specifiers:
   '@apollo/client': ^3.3.20
   '@graphql-codegen/cli': 1.21.5
   '@graphql-codegen/fragment-matcher': 2.0.1
-  '@graphql-codegen/introspection': ^1.18.2
   '@graphql-codegen/typescript': 1.22.3
   '@graphql-codegen/typescript-apollo-client-helpers': ^1.1.8
   '@graphql-codegen/typescript-operations': 1.18.2
@@ -68,7 +67,6 @@ dependencies:
 devDependencies:
   '@graphql-codegen/cli': 1.21.5_graphql@15.5.1+typescript@4.1.6
   '@graphql-codegen/fragment-matcher': 2.0.1_graphql@15.5.1
-  '@graphql-codegen/introspection': 1.18.2_graphql@15.5.1
   '@graphql-codegen/typescript': 1.22.3_graphql@15.5.1
   '@graphql-codegen/typescript-apollo-client-helpers': 1.1.8_graphql@15.5.1
   '@graphql-codegen/typescript-operations': 1.18.2_graphql@15.5.1
@@ -1449,16 +1447,6 @@ packages:
       '@graphql-codegen/plugin-helpers': 1.18.7_graphql@15.5.1
       graphql: 15.5.1
       tslib: 2.0.3
-    dev: true
-
-  /@graphql-codegen/introspection/1.18.2_graphql@15.5.1:
-    resolution: {integrity: sha512-1SuhWu6nbOIOSZdQLNmHHVN8VsTavUQUD6OWjUuR3Bjpw9jfykNYXPpGGQxdCa5hmiWvn2JQU+qtgtERzz4+rg==}
-    peerDependencies:
-      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
-    dependencies:
-      '@graphql-codegen/plugin-helpers': 1.18.7_graphql@15.5.1
-      graphql: 15.5.1
-      tslib: 2.2.0
     dev: true
 
   /@graphql-codegen/plugin-helpers/1.18.7_graphql@15.5.1:
