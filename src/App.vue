@@ -1,57 +1,65 @@
 <template>
-  <v-app>
-    <v-sheet
-      color="deep-purple-accent-4"
-      tag="header"
-      :style="{
-        zIndex: 2,
-        display: 'flex',
-        gap: '12px',
-      }"
-      fixed
-      v-bind="headerStyle"
-      id="actions"
-    >
-    </v-sheet>
-    <v-main>
-      <router-view />
-    </v-main>
-  </v-app>
+  <main class="flex-1 mb-[56px] sm:mr-[56px]">
+    <router-view />
+  </main>
+
+  <nav
+    :class="[
+      `fixed
+        right-0
+        bottom-0
+        w-screen
+        flex
+        gap-3
+        h-14
+        px-1.5
+        py-2.5`,
+      'sm:w-14 sm:h-screen sm:flex-col sm:px-2.5 sm:py-1.5 sm:justify-center',
+      'bg-purple-600',
+    ]"
+    id="actions"
+  ></nav>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, toRef } from "vue";
-import { useBreakpoints } from "./hooks/useBreakpoints";
-
-export default defineComponent({
-  name: "App",
-
-  data() {
-    const mobile = toRef(useBreakpoints(), "mobile");
-
-    const headerStyle = computed(() =>
-      mobile.value
-        ? {
-            bottom: true,
-            width: "100vw",
-            height: "56px",
-            style: { padding: "10px 6px" },
-          }
-        : {
-            right: true,
-            width: "56px",
-            height: "100vh",
-            style: {
-              padding: "6px 10px",
-              flexDirection: "column",
-              justifyContent: "center",
-            },
-          }
-    );
+<script lang="ts" setup>
+import { customRef, shallowRef, watch } from "vue";
+import { getAutocomplete } from "./api/reddit";
+import { Comment, Listing, Subreddit } from "./types";
+function useDebouncedRef<T>(value: T, delay: number) {
+  let timeout: number | undefined;
+  return customRef((track, trigger) => {
     return {
-      headerStyle,
-      //
+      get() {
+        track();
+        return value;
+      },
+      set(newValue: T) {
+        value = newValue;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          trigger();
+        }, delay);
+      },
     };
-  },
+  });
+}
+
+const query = useDebouncedRef("", 500);
+const result = shallowRef<Listing<Comment | Subreddit> | null>(null);
+
+watch(query, async (query) => {
+  try {
+    result.value = await getAutocomplete({ query });
+  } catch {
+    result.value = null;
+  }
 });
 </script>
+
+<style>
+#app {
+  font-family: Roboto, Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+</style>

@@ -1,6 +1,6 @@
-import { cached } from "./hooks/useQuery";
-
 import { default as globalAxios } from "axios";
+import { inject, InjectionKey } from "vue";
+import { createUseCache, createUseProgress } from "./hooks/useQuery";
 
 export function createCancelToken(abort: AbortSignal) {
   return new globalAxios.CancelToken((cancel) => {
@@ -10,39 +10,29 @@ export function createCancelToken(abort: AbortSignal) {
   });
 }
 
-let acc: any;
-
 const instance = globalAxios.create({
-  baseURL: "https://www.reddit.com/r",
-  transformResponse: [
-    JSON.parse,
-    (data) => {
-      try {
-        console.log("detectTypes", data);
-        acc = detectTypes(data?.data?.children || [], acc);
-        console.log(acc);
-      } catch {
-        console.error("detectTypes error");
-      }
-      return data;
-    },
-  ],
+  baseURL: "https://www.reddit.com",
 });
 
-// instance.interceptors.request.use((config) => {
-//   NProgress.start();
-//   return config;
-// });
+instance.interceptors.request.use((config) => {
+  useProgress().start();
+  return config;
+});
 
-// // before a response is returned stop nprogress
-// instance.interceptors.response.use((response) => {
-//   NProgress.done();
-//   return response;
-// });
+instance.interceptors.response.use((response) => {
+  useProgress().done();
+  return response;
+});
 
-export default cached()(instance);
+const [withProgress, useProgress] = createUseProgress({
+  id: "progress",
+});
 
-import { inject, InjectionKey } from "vue";
+const [withCache, useCache] = createUseCache({ id: "cache" });
+
+export default withCache(instance);
+
+export { useCache, useProgress };
 
 export const AXIOS = Symbol("AXIOS") as InjectionKey<typeof instance>;
 
@@ -53,35 +43,3 @@ export const useAxios = () => {
   }
   return axios;
 };
-
-export function detectTypes(
-  edges: { data: Record<string, unknown> }[],
-  acc = Object.fromEntries(
-    Object.keys(edges[0].data).map((k) => [k, [] as string[]])
-  )
-): any {
-  // return edges.reduce<Record<string, string[]>>((acc, edge: any) => {
-  for (const edge of edges) {
-    for (const key in edge?.data ?? []) {
-      const type = getType(edge?.data[key]);
-
-      if (!Array.isArray(acc[key])) {
-        acc[key] = [];
-      }
-      if (!acc[key].includes(type)) {
-        acc[key].push(type);
-      }
-    }
-  }
-
-  return acc;
-}
-
-const getType = (t: unknown): string =>
-  t === null || t === undefined
-    ? "null"
-    : Array.isArray(t)
-    ? t.length > 0
-      ? `array<${t.map(getType).join(",")}>`
-      : "array"
-    : typeof t;
