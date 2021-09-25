@@ -1,8 +1,4 @@
 <template>
-  <main class="mb-[56px] sm:mr-[56px] sm:mb-0">
-    <router-view />
-  </main>
-
   <nav
     :class="[
       `fixed
@@ -19,6 +15,9 @@
     ]"
     id="actions"
   ></nav>
+  <main class="mb-[56px] sm:mr-[56px] sm:mb-0">
+    <router-view> </router-view>
+  </main>
 </template>
 
 <script lang="ts" setup>

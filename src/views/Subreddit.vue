@@ -10,7 +10,7 @@ import "swiper/css/virtual";
 import { getLinks, LinksSort } from "@/api/reddit";
 import { Link, Listing } from "@/types";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { computed, shallowRef, watch } from "vue";
+import { computed, onBeforeUnmount, ref, shallowRef, watch } from "vue";
 import { useRoute } from "vue-router";
 import RedditLink from "./RedditLink.vue";
 import { Keyboard, Mousewheel, Scrollbar, Virtual } from "swiper";
@@ -83,12 +83,25 @@ watch(links, (links, prev) => {
 function getFullname(node: { kind: string; data: { id: string } }) {
   return node.kind + "_" + node.data.id;
 }
+
+const height = ref(window.visualViewport.height);
+
+function resizeHandler() {
+  height.value = window.visualViewport.height;
+}
+
+window.visualViewport.addEventListener("resize", resizeHandler);
+
+onBeforeUnmount(() => {
+  window.visualViewport.removeEventListener("resize", resizeHandler);
+});
 </script>
 
 <template>
   <swiper
     :modules="modules"
-    class="h-[calc(100vh-56px)] sm:h-screen"
+    class="sm:!h-screen"
+    :style="{ height: `${height - 56}px` }"
     direction="vertical"
     keyboard
     virtual
