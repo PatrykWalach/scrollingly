@@ -1,5 +1,5 @@
 <template>
-  <main class="flex-1 mb-[56px] sm:mr-[56px]">
+  <main class="mb-[56px] sm:mr-[56px] sm:mb-0">
     <router-view />
   </main>
 
