@@ -1,32 +1,27 @@
 <script lang="ts" setup>
+import { useIsActivated, useMetaData } from "@/hooks/useMetaData";
 import { Comment, Listing } from "@/types";
-import { watch } from "@vue/runtime-core";
-import { computed, shallowRef } from "vue";
-import { useRoute } from "vue-router";
+import { computed } from "vue";
 import RedditComment from "./RedditComment.vue";
 
-const route = useRoute();
+const result = useMetaData<Listing<Comment>>();
 
-const data = computed(() => route.meta.data as Listing<Comment>);
+const isActivated = useIsActivated();
 
-const result = shallowRef(data.value);
-
-watch(data, (data) => {
-  result.value = data;
-});
+const comments = computed(() => result.value?.data.children || []);
 </script>
 <template>
   <div class="flex-1">
     <ul class="list-disc">
       <RedditComment
         :key="comment.data.id"
-        v-for="comment in result.data.children"
+        v-for="comment in comments"
         :comment="comment"
       ></RedditComment>
     </ul>
   </div>
 
-  <teleport to="#actions">
+  <teleport to="#actions" v-if="isActivated">
     <!--  div-->
     <button
       @click="$router.back"

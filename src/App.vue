@@ -16,7 +16,11 @@
     id="actions"
   ></nav>
   <main class="mb-[56px] sm:mr-[56px] sm:mb-0">
-    <router-view> </router-view>
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
   </main>
 </template>
 

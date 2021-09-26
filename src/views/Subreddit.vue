@@ -8,12 +8,13 @@ import "swiper/css/virtual";
 
 <script lang="ts" setup>
 import { getLinks, LinksSort } from "@/api/reddit";
+import { useMetaData } from "@/hooks/useMetaData";
 import { Link, Listing } from "@/types";
+import { Keyboard, Mousewheel, Scrollbar, Virtual } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { computed, onBeforeUnmount, ref, shallowRef, watch } from "vue";
+import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import RedditLink from "./RedditLink.vue";
-import { Keyboard, Mousewheel, Scrollbar, Virtual } from "swiper";
 const modules = [
   Virtual,
   Mousewheel,
@@ -38,13 +39,7 @@ function updateResult(
 
 const route = useRoute();
 
-const data = computed(() => route.meta.data as Listing<Link>);
-
-const result = shallowRef(data.value);
-
-watch(data, (data) => {
-  result.value = data;
-});
+const result = useMetaData<Listing<Link>>();
 
 let promise: Promise<unknown> | null = null;
 

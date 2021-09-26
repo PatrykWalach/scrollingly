@@ -7,6 +7,7 @@ import { LinkData } from "@/types";
 import { computed, defineProps, watch } from "vue";
 import Hls from "hls.js";
 import VImg from "./VImg.vue";
+import { useIsActivated } from "@/hooks/useMetaData";
 
 const props = defineProps<{ node: LinkData; isActive: boolean }>();
 
@@ -51,6 +52,8 @@ watch([video, redditVideo], ([video, redditVideo], _, onCleanup) => {
     });
   }
 });
+
+const isActivated = useIsActivated();
 </script>
 
 <template>
@@ -100,7 +103,7 @@ watch([video, redditVideo], ([video, redditVideo], _, onCleanup) => {
       <v-img v-else :image="image" />
     </template>
 
-    <teleport to="#actions" v-if="isActive">
+    <teleport to="#actions" v-if="isActive && isActivated">
       <a
         :href="`https://www.reddit.com${node.permalink}`"
         target="_blank"
