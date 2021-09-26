@@ -83,7 +83,7 @@ const isActivated = useIsActivated();
       </video>
     </template>
     <template v-else-if="'content' in node.secure_media_embed">
-      <div v-html="node.secure_media_embed.content"></div>
+      <div class="contents" v-html="node.secure_media_embed.content"></div>
     </template>
     <template v-else v-for="{ variants, id, ...image } in images" :key="id">
       <video
@@ -134,3 +134,8 @@ const isActivated = useIsActivated();
     </teleport>
   </div>
 </template>
+<style lang="scss">
+iframe {
+  @apply object-contain w-full h-full pointer-events-none;
+}
+</style>
