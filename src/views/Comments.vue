@@ -11,7 +11,7 @@ const isActivated = useIsActivated();
 const comments = computed(() => result.value?.data.children || []);
 </script>
 <template>
-  <div class="flex-1">
+  <div class="p-4 md:p-8 flex-1">
     <ul class="list-disc">
       <RedditComment
         :key="comment.data.id"

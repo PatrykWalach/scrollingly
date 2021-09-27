@@ -22,7 +22,7 @@ const formattedCreatedUtc = computed(
 );
 </script>
 <template>
-  <li class="ml-8 py-2">
+  <li class="ml-4 py-2">
     <div class="font-medium leading-5 text-sm">
       {{ comment.data.author }}
     </div>
@@ -49,16 +49,16 @@ const formattedCreatedUtc = computed(
         <span>{{ comment.data.ups }}</span>
       </li>
     </ul>
+    <template v-if="replies.length">
+      <ul class="list-disc">
+        <RedditComment
+          :key="comment.data.id"
+          v-for="comment in replies"
+          :comment="comment"
+        ></RedditComment>
+      </ul>
+    </template>
   </li>
-  <template v-if="replies.length">
-    <ul class="ml-8 list-disc">
-      <RedditComment
-        :key="comment.data.id"
-        v-for="comment in replies"
-        :comment="comment"
-      ></RedditComment>
-    </ul>
-  </template>
 </template>
 
 <style lang="scss">
