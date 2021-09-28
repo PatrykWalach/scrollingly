@@ -83,7 +83,11 @@ const isActivated = useIsActivated();
       </video>
     </template>
     <template v-else-if="'content' in node.secure_media_embed">
-      <div class="contents" v-html="node.secure_media_embed.content"></div>
+      <div
+        class="contents"
+        :style="`--iframe-aspect-ratio: ${node.secure_media_embed.width}/${node.secure_media_embed.height};`"
+        v-html="node.secure_media_embed.content"
+      ></div>
     </template>
     <template v-else v-for="{ variants, id, ...image } in images" :key="id">
       <video
@@ -136,6 +140,7 @@ const isActivated = useIsActivated();
 </template>
 <style lang="scss">
 iframe {
-  @apply object-contain w-full h-full pointer-events-none;
+  @apply max-h-full w-full h-auto;
+  aspect-ratio: var(--iframe-aspect-ratio);
 }
 </style>
