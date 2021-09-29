@@ -23,7 +23,6 @@ specifiers:
   eslint-plugin-prettier: ^4.0.0
   eslint-plugin-vue: 7.18.0
   fp-ts: ^2.11.3
-  fscreen: ^1.2.0
   hls.js: ^1.0.10
   io-ts: ^2.2.16
   lint-staged: ^11.1.2
@@ -48,7 +47,6 @@ dependencies:
   core-js: 3.18.0
   date-fns: 2.24.0
   fp-ts: 2.11.3
-  fscreen: 1.2.0
   hls.js: 1.0.10
   io-ts: 2.2.16_fp-ts@2.11.3
   mdi-vue: 3.0.7_vue@3.2.16
@@ -4492,10 +4490,6 @@ packages:
   /fs.realpath/1.0.0:
     resolution: {integrity: sha1-FQStJSMVjKpA20onh8sBQRmU6k8=}
     dev: true
-
-  /fscreen/1.2.0:
-    resolution: {integrity: sha512-hlq4+BU0hlPmwsFjwGGzZ+OZ9N/wq9Ljg/sq3pX+2CD7hrJsX9tJgWWK/wiNTFM212CLHWhicOoqwXyZGGetJg==}
-    dev: false
 
   /fsevents/2.3.2:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
