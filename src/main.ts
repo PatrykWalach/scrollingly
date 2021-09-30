@@ -18,5 +18,4 @@ createApp(App as any)
   })
   .use(createPinia())
 
-  .provide(AXIOS, axios)
   .mount("#app");
