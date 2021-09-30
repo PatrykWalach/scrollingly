@@ -34,12 +34,4 @@ export default withCache(instance);
 
 export { useCache, useProgress };
 
-export const AXIOS = Symbol("AXIOS") as InjectionKey<typeof instance>;
 
-export const useAxios = () => {
-  const axios = inject(AXIOS, null);
-  if (axios === null) {
-    throw "no client";
-  }
-  return axios;
-};
