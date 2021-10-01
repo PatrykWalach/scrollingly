@@ -1,7 +1,6 @@
 import { createPinia } from "pinia";
 import { createApp, defineComponent, h } from "vue";
 import App from "./App.vue";
-import axios, { AXIOS } from "./axios";
 
 import router from "./router";
 import "./index.css";
